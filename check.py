@@ -29,7 +29,7 @@ REPORT_PATH = os.path.join(BASE_DIR, "report.md")
 
 MAX_DAYS = 30
 WARN_STREAK = 3
-SEARCH_KEYWORD = sys.argv[1] if len(sys.argv) > 1 else "斗罗大陆"
+SEARCH_KEYWORD = sys.argv[1] if len(sys.argv) > 1 else "独自等待"
 TIMEOUT_MS = 10000
 CONCURRENT_LIMIT = 10
 MAX_RETRY = 3
