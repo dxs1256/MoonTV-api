@@ -39,7 +39,7 @@
 2. 在「添加新源」填名称、API 地址、站点主页，点「添加到列表」
 3. 需要直接提交时，在「GitHub Token」填入有 repo 权限的 Token，点「保存到 GitHub」
 
-页面会校验 URL、拦截重复 API、自动生成 key；不需要提交可点「下载 sources.json」手动上传。Token 只存在本机浏览器 localStorage，不写入仓库。
+页面会校验 URL、拦截重复 API、自动生成 key；已有重复项会标红，点「检测并去重」可一键清理（每组保留第一个）。不需要提交可点「下载 sources.json」手动上传。Token 只存在本机浏览器 localStorage，不写入仓库。
 
 ### 命令行
 

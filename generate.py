@@ -36,7 +36,7 @@ def load_sources():
 
 
 def load_latest_results():
-    """读取 report.md 中最近一次检测结果，返回 {api: 结果}；无数据返回 None。"""
+    """读取 report.md 中最近一次检测结果，返回 {key: 结果}；无数据返回 None。"""
     if not os.path.exists(REPORT_PATH):
         return None
     with open(REPORT_PATH, "r", encoding="utf-8") as f:
@@ -51,7 +51,12 @@ def load_latest_results():
     if not history:
         return None
     latest = history[-1].get("results", [])
-    return {r["api"]: r for r in latest if "api" in r}
+    results = {}
+    for row in latest:
+        if "api" not in row:
+            continue
+        results[row.get("key") or row["api"]] = row
+    return results
 
 
 def base58_encode(data):
@@ -86,7 +91,7 @@ def main():
 
     healthy = {}
     for key, src in api_site.items():
-        result = latest.get(src.get("api"))
+        result = latest.get(key) or latest.get(src.get("api"))
         if not result or not result.get("success"):
             continue
         if REQUIRE_SEARCH_PASS and result.get("searchStatus") != "✅":

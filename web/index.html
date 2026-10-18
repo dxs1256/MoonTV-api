@@ -137,6 +137,7 @@
     <h2>源列表</h2>
     <div class="toolbar">
       <input id="search" placeholder="搜索名称或 api" style="flex:1 1 260px">
+      <button class="btn small" id="dedupeBtn">检测并去重</button>
       <span class="count" id="count">0 个源</span>
     </div>
     <div class="table-scroll">
@@ -293,11 +294,28 @@ function render() {
     return (k + " " + (v.name || "") + " " + (v.api || "")).toLowerCase().includes(q);
   });
 
+  const seen = new Map();
+  const dupKeys = new Set();
+  for (const [key, src] of entries) {
+    const norm = normalizeApi(src.api);
+    if (!norm) continue;
+    if (seen.has(norm)) dupKeys.add(key);
+    else seen.set(norm, key);
+  }
+
   for (const [key, src] of shown) {
     const tr = document.createElement("tr");
+    if (dupKeys.has(key)) tr.style.background = "rgba(255, 86, 86, 0.08)";
     const tdName = document.createElement("td");
     tdName.className = "name-cell";
     tdName.textContent = src.name || "(未命名)";
+    if (dupKeys.has(key)) {
+      const badge = document.createElement("span");
+      badge.textContent = " 重复";
+      badge.style.color = "#ff5656";
+      badge.style.fontSize = "11px";
+      tdName.appendChild(badge);
+    }
     const tdApi = document.createElement("td");
     tdApi.className = "api";
     tdApi.textContent = src.api || "";
@@ -344,6 +362,35 @@ function addSource() {
   $("name").value = ""; $("api").value = ""; $("detail").value = "";
   render();
   toast(`已添加：${name}（key: ${key}）`, "ok");
+}
+
+function findDuplicateKeys() {
+  const apiSite = state.sources[SITES_KEY];
+  const seen = new Map();
+  const dups = [];
+  for (const [key, src] of Object.entries(apiSite)) {
+    const norm = normalizeApi(src.api);
+    if (!norm) continue;
+    if (seen.has(norm)) dups.push([key, seen.get(norm)]);
+    else seen.set(norm, key);
+  }
+  return dups;
+}
+
+function dedupeSources() {
+  if (!state.sources) { toast("请先加载 sources.json", "err"); return; }
+  const dups = findDuplicateKeys();
+  if (!dups.length) { toast("未发现重复 api", "ok"); return; }
+  const lines = dups.map(([key, first]) => {
+    const a = state.sources[SITES_KEY][key];
+    const b = state.sources[SITES_KEY][first];
+    return `- ${a.name || key}（保留 ${b.name || first}）\n  ${normalizeApi(a.api)}`;
+  });
+  if (!confirm(`发现 ${dups.length} 个重复 api：\n\n${lines.join("\n")}\n\n每组保留第一个，删除其余项？`)) return;
+  for (const [key] of dups) delete state.sources[SITES_KEY][key];
+  state.dirty = true;
+  render();
+  toast(`已移除 ${dups.length} 个重复项，记得保存`, "ok");
 }
 
 function removeSource(key) {
@@ -414,6 +461,7 @@ restoreConfig();
 $("loadBtn").onclick = loadSources;
 $("saveBtn").onclick = saveToGitHub;
 $("downloadBtn").onclick = downloadJson;
+$("dedupeBtn").onclick = dedupeSources;
 $("addBtn").onclick = addSource;
 $("search").oninput = render;
 $("api").addEventListener("keydown", (e) => { if (e.key === "Enter") addSource(); });

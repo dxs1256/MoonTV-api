@@ -104,6 +104,7 @@ def load_sources():
         cfg = json.load(f)
     return [
         {
+            "key": k,
             "name": s.get("name", k),
             "api": s.get("api", ""),
             "detail": s.get("detail", "-"),
@@ -140,30 +141,42 @@ def run_checks(sources, keyword):
 
     results = {}
     with ThreadPoolExecutor(max_workers=CONCURRENT_LIMIT) as pool:
-        futures = {pool.submit(task, s): s["api"] for s in sources}
+        futures = {pool.submit(task, s): s for s in sources}
         for fut in as_completed(futures):
-            api = futures[fut]
+            src = futures[fut]
             try:
-                results[api] = fut.result()
+                results[src["key"]] = fut.result()
             except Exception as exc:
-                results[api] = {"api": api, "success": False, "searchStatus": str(exc)}
+                results[src["key"]] = {**src, "success": False, "searchStatus": str(exc)}
     return results
+
+
+def find_history_row(day, src):
+    """在历史记录中查找某个源：优先按 key，旧数据回退到 api。"""
+    rows = day.get("results", [])
+    key = src.get("key")
+    if key:
+        row = next((x for x in rows if x.get("key") == key), None)
+        if row is not None:
+            return row
+    return next((x for x in rows if x.get("api") == src["api"]), None)
 
 
 def compute_stats(sources, history, today_results):
     """汇总状态、成功率、趋势与最终状态标记。"""
     stats = {}
     for src in sources:
+        key = src["key"]
         api = src["api"]
         st = {
-            "name": src["name"], "api": api, "detail": src["detail"],
+            "key": key, "name": src["name"], "api": api, "detail": src["detail"],
             "disabled": src["disabled"], "ok": 0, "fail": 0, "trend": "",
             "searchStatus": "-", "status": "❌",
         }
 
         if not src["disabled"]:
             for day in history:
-                row = next((x for x in day.get("results", []) if x.get("api") == api), None)
+                row = find_history_row(day, src)
                 if row is None:
                     continue
                 if row.get("success"):
@@ -173,7 +186,7 @@ def compute_stats(sources, history, today_results):
 
             streak = 0
             for day in reversed(history):
-                row = next((x for x in day.get("results", []) if x.get("api") == api), None)
+                row = find_history_row(day, src)
                 if row is None:
                     break
                 if row.get("success"):
@@ -185,7 +198,7 @@ def compute_stats(sources, history, today_results):
 
             recent = history[-7:]
             st["trend"] = "".join(
-                "✅" if next((x for x in d.get("results", []) if x.get("api") == api), {}).get("success")
+                "✅" if (find_history_row(d, src) or {}).get("success")
                 else "❌"
                 for d in recent
             )
@@ -193,7 +206,7 @@ def compute_stats(sources, history, today_results):
             st["successRate"] = "-"
             st["trend"] = "🚫" * min(len(history[-7:]), 7)
 
-        latest = today_results.get(api)
+        latest = today_results.get(key)
         if latest:
             st["searchStatus"] = latest["searchStatus"]
 
@@ -208,7 +221,7 @@ def compute_stats(sources, history, today_results):
         else:
             st["status"] = "⚠️"
 
-        stats[api] = st
+        stats[key] = st
     return stats
 
 
@@ -259,7 +272,7 @@ def main():
         "keyword": SEARCH_KEYWORD,
         "results": [
             {
-                "api": r["api"], "name": r["name"], "success": r["success"],
+                "key": r.get("key"), "api": r["api"], "name": r["name"], "success": r["success"],
                 "searchStatus": r.get("searchStatus", "-"),
             }
             for r in today_results.values()
