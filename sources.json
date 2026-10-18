@@ -90,13 +90,6 @@
       "name": "豪华资源",
       "api": "https://pz.168188.dpdns.org/?url=https://hhzyapi.com/api.php/provide/vod",
       "detail": "https://www.haohuazy.com"
-    },
-    "test": {
-      "name": "示例测试源",
-      "api": "https://www.example.com/api.php/provide/vod",
-      "detail": "-",
-      "disabled": true,
-      "note": "演示 disabled 字段用法，加入真实源后删除"
     }
   }
 }
