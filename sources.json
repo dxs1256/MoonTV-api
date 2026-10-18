@@ -68,7 +68,7 @@
     },
     "wangwangzy": {
       "name": "旺旺资源",
-      "api": "https://api.wwzy.tv/api.php/provide/vod",
+      "api": "https://tyyszy.com/api.php/provide/vod",
       "detail": "https://api.wwzy.tv"
     },
     "subozy": {
@@ -83,12 +83,12 @@
     },
     "ruyizy": {
       "name": "如意资源",
-      "api": "https://pz.168188.dpdns.org/?url=https://cj.rycjapi.com/api.php/provide/vod",
+      "api": "https://cj.rycjapi.com/api.php/provide/vod",
       "detail": "https://www.ryzyw.com"
     },
     "haohuazy": {
       "name": "豪华资源",
-      "api": "https://pz.168188.dpdns.org/?url=https://hhzyapi.com/api.php/provide/vod",
+      "api": "https://hhzyapi.com/api.php/provide/vod",
       "detail": "https://www.haohuazy.com"
     }
   }
