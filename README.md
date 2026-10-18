@@ -16,6 +16,7 @@
 ├── sources.json              # 唯一主数据源，也是完整订阅配置
 ├── check.py                  # 健康+搜索检测，生成 report.md
 ├── generate.py               # 从检测结果生成健康版订阅
+├── dedupe.py                 # 检测并清理重复 api
 ├── report.md                 # 检测报告（含30天历史）
 ├── dist/
 │   ├── healthy.json          # 健康版（只含检测通过的源）
@@ -44,6 +45,17 @@
 
 添加后提交，GitHub Actions 会在下次定时运行时检测并更新健康版；也可先本地运行 `python check.py && python generate.py` 立即验证。
 
+## 重复检测
+
+源越加越多时容易出现同一个 `api` 重复登记。`dedupe.py` 用于检测和清理：
+
+```bash
+python dedupe.py           # 只检测，列出重复项
+python dedupe.py --apply   # 去重并写回
+```
+
+重复判定规则：`api` 去掉首尾空白和末尾斜杠后完全相同即视为重复，每组只保留第一个出现的源。`check.py` 运行时也会提示是否存在重复，但不会自动修改。
+
 ## 本地用法
 
 ```bash
@@ -55,6 +67,12 @@ python check.py "斗罗大陆"
 
 # 根据检测结果生成健康版订阅
 python generate.py
+
+# 检测重复 api（只报告，不修改）
+python dedupe.py
+
+# 去重并写回 sources.json（每组保留第一个）
+python dedupe.py --apply
 ```
 
 执行顺序：先 `check.py` 生成报告，再 `generate.py` 生成健康版。

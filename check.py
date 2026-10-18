@@ -89,6 +89,16 @@ def search_test(api, keyword):
     return "✅" if any(match_keyword(item, keyword) for item in items) else "不匹配"
 
 
+def warn_duplicates():
+    """检测 sources.json 中重复的 api 并提示。"""
+    from dedupe import find_duplicates
+    with open(SOURCES_PATH, "r", encoding="utf-8") as f:
+        cfg = json.load(f)
+    dups = find_duplicates(cfg.get("api_site", {}))
+    if dups:
+        print(f"⚠️ 检测到 {len(dups)} 个重复 api，建议运行 python dedupe.py 查看详情")
+
+
 def load_sources():
     with open(SOURCES_PATH, "r", encoding="utf-8") as f:
         cfg = json.load(f)
@@ -237,6 +247,7 @@ def write_report(sources, history, today_record, stats, keyword, now_str):
 
 
 def main():
+    warn_duplicates()
     sources = load_sources()
     print(f"⏳ 正在检测 {len(sources)} 个源（关键词: {SEARCH_KEYWORD}）...")
 
