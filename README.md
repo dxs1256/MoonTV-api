@@ -18,7 +18,9 @@
 ├── report.md                 # 检测报告（含30天历史）
 ├── dist/
 │   ├── full.json             # 全部源
-│   └── clean.json            # 精简版（剔除 adult / disabled）
+│   ├── full.txt              # full.json 的 Base58 订阅编码
+│   ├── clean.json           # 精简版（剔除 adult / disabled）
+│   └── clean.txt             # clean.json 的 Base58 订阅编码
 └── .github/workflows/
     └── check.yml             # 定时检测工作流
 ```
@@ -60,9 +62,23 @@ python check.py
 # 指定关键词
 python check.py "斗罗大陆"
 
-# 重新生成分发版本
+# 重新生成分发版本（JSON + Base58 订阅）
 python generate.py
 ```
+
+## 订阅使用
+
+`generate.py` 会同时生成 JSON 和 Base58 订阅文件，播放器订阅时使用 `.txt`：
+
+```
+https://raw.githubusercontent.com/<user>/<repo>/main/dist/full.txt
+https://raw.githubusercontent.com/<user>/<repo>/main/dist/clean.txt
+```
+
+- `full.txt`：全部源
+- `clean.txt`：剔除 adult 与 disabled 源后的精简版
+
+需要 JSON 原始配置时用 `dist/full.json` / `dist/clean.json`。Base58 编码与 `bs58` 完全一致。
 
 ## 状态说明
 
