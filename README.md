@@ -1,6 +1,8 @@
-# API 健康检测
+# MoonTV API
 
 视频源（macOS `provide/vod` 接口）可用性检测仓库。定时检测每个源是否正常、搜索是否命中，并自动生成一份只含健康源的订阅配置。
+
+仓库地址：<https://github.com/dxs1256/MoonTV-api>
 
 ## 特点
 
@@ -33,7 +35,7 @@
 
 ### 网页版（最省事）
 
-打开 <https://dxs1256.github.io/api-health-check/>：
+打开 <https://dxs1256.github.io/MoonTV-api/>：
 
 1. 填 Owner / 仓库 / 分支（默认已填好本仓库），点「加载 sources.json」
 2. 在「添加新源」填名称、API 地址、站点主页，点「添加到列表」
@@ -114,8 +116,8 @@ python dedupe.py --apply
 - 健康订阅（只含检测通过的源）：使用 `dist/healthy.txt`（Base58）或 `dist/healthy.json`
 
 ```
-https://raw.githubusercontent.com/<user>/<repo>/main/sources.json
-https://raw.githubusercontent.com/<user>/<repo>/main/dist/healthy.txt
+https://raw.githubusercontent.com/dxs1256/MoonTV-api/main/sources.json
+https://raw.githubusercontent.com/dxs1256/MoonTV-api/main/dist/healthy.txt
 ```
 
 Base58 编码与 `bs58` 完全一致。

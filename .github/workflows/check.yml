@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 concurrency:
-  group: api-health-check
+  group: MoonTV-api-check
   cancel-in-progress: false
 
 permissions:
