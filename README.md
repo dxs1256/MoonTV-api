@@ -20,7 +20,9 @@
 │   ├── full.json             # 全部源
 │   ├── full.txt              # full.json 的 Base58 订阅编码
 │   ├── clean.json           # 精简版（剔除 adult / disabled）
-│   └── clean.txt             # clean.json 的 Base58 订阅编码
+│   ├── clean.txt             # clean.json 的 Base58 订阅编码
+│   ├── healthy.json          # 健康版（clean 中最近一次检测通过的源）
+│   └── healthy.txt           # healthy.json 的 Base58 订阅编码
 └── .github/workflows/
     └── check.yml             # 定时检测工作流
 ```
@@ -73,12 +75,25 @@ python generate.py
 ```
 https://raw.githubusercontent.com/<user>/<repo>/main/dist/full.txt
 https://raw.githubusercontent.com/<user>/<repo>/main/dist/clean.txt
+https://raw.githubusercontent.com/<user>/<repo>/main/dist/healthy.txt
 ```
 
 - `full.txt`：全部源
 - `clean.txt`：剔除 adult 与 disabled 源后的精简版
+- `healthy.txt`：在 clean 基础上，再剔除最近一次检测失败的源
 
-需要 JSON 原始配置时用 `dist/full.json` / `dist/clean.json`。Base58 编码与 `bs58` 完全一致。
+需要 JSON 原始配置时用对应的 `.json` 文件。Base58 编码与 `bs58` 完全一致。
+
+## 健康版订阅
+
+`healthy` 版本读取 `report.md` 中最近一次检测结果，只保留健康检测通过的源：
+
+- 坏源自动从 `healthy.txt` 消失，恢复后下次检测通过会自动回来
+- `sources.json` 始终保留全部源，不因检测失败被删除
+- 依赖执行顺序：先 `python check.py` 生成报告，再 `python generate.py` 生成健康版
+- `report.md` 不存在时自动跳过 healthy 版本
+- 新加入、尚未检测过的源不会进入 healthy，直到下一次检测
+- 默认只要健康检测通过即算通过；如需搜索也命中，把 `generate.py` 里 `REQUIRE_SEARCH_PASS` 改为 `True`
 
 ## 状态说明
 
