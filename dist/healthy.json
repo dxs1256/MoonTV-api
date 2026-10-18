@@ -106,6 +106,11 @@
       "api": "https://jyzyapi.com/provide/vod/from/jinyingyun/at/json",
       "detail": "https://jinyingzy.com"
     },
+    "p2100": {
+      "name": "飘零资源",
+      "api": "https://p2100.net/api.php/provide/vod",
+      "detail": "https://p2100.net"
+    },
     "guangsuapi": {
       "name": "光速资源",
       "api": "https://api.guangsuapi.com/api.php/provide/vod",
@@ -123,7 +128,7 @@
     },
     "bdzy1": {
       "name": "百度云zy",
-      "api": "https://pz.v88.qzz.io/?url=https://api.apibdzy.com/api.php/provide/vod",
+      "api": "https://api.apibdzy.com/api.php/provide/vod",
       "detail": "https://bdzy1.com"
     },
     "lovedan": {
