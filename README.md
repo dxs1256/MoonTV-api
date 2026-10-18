@@ -94,7 +94,7 @@ python dedupe.py --apply   # 去重并写回
 python check.py
 
 # 检测（指定关键词）
-python check.py "斗罗大陆"
+python check.py "独自等待"
 
 # 根据检测结果生成健康版订阅
 python generate.py
