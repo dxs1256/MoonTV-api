@@ -14,6 +14,7 @@
 
 ```
 ├── sources.json              # 唯一主数据源，也是完整订阅配置
+├── add.py                    # 交互式添加新源，自动校验并生成 key
 ├── check.py                  # 健康+搜索检测，生成 report.md
 ├── generate.py               # 从检测结果生成健康版订阅
 ├── dedupe.py                 # 检测并清理重复 api
@@ -27,7 +28,24 @@
 
 ## 添加新源
 
-编辑 `sources.json` 的 `api_site`，按下面格式添加一项：
+推荐用 `add.py`，不用手写 JSON，自动校验格式、生成唯一 key、拦截重复：
+
+```bash
+# 交互模式，按提示填写
+python add.py
+
+# 命令行模式
+python add.py --name "源名称" --api "https://example.com/api.php/provide/vod" --detail "https://example.com"
+
+# api 已存在时强制添加
+python add.py --name "源名称" --api "..." --force
+```
+
+脚本会校验 `name` 和 `api`（必须是合法 http/https 地址）、按站点域名生成唯一 key、api 重复时默认拒绝。添加后提交，GitHub Actions 会在下次定时运行时检测并更新健康版；也可先本地运行 `python check.py && python generate.py` 立即验证。
+
+### 手动编辑格式
+
+如果仍想手动编辑 `sources.json`，在 `api_site` 里加一项：
 
 ```json
 "新源key": {
@@ -42,8 +60,6 @@
 | `name` | 是 | 显示名称 |
 | `api` | 是 | `provide/vod` 接口地址 |
 | `detail` | 否 | 站点主页，用于报告中生成链接 |
-
-添加后提交，GitHub Actions 会在下次定时运行时检测并更新健康版；也可先本地运行 `python check.py && python generate.py` 立即验证。
 
 ## 重复检测
 
