@@ -27,7 +27,7 @@ jobs:
       - name: 检测全部源
         run: python check.py
 
-      - name: 生成分发版本（含健康版）
+      - name: 生成健康版订阅
         run: python generate.py
 
       - name: 提交并推送更新

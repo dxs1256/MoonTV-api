@@ -1,23 +1,16 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""从主数据源 sources.json 生成分发版本。
+"""从 sources.json 生成健康版订阅。
 
 用法:
-    python generate.py
+    python check.py      # 先检测，生成 report.md
+    python generate.py   # 再生成 dist/healthy.json 与 dist/healthy.txt
 
-生成:
-    dist/full.json     全部源（保留 adult / disabled 标记）
-    dist/full.txt      上面 full.json 的 Base58 订阅编码
-    dist/clean.json    精简版（剔除 adult 与 disabled 源）
-    dist/clean.txt     上面 clean.json 的 Base58 订阅编码
-    dist/healthy.json  健康版（在 clean 基础上，只保留最近一次检测通过的源）
-    dist/healthy.txt   上面 healthy.json 的 Base58 订阅编码
-
-healthy 版本依赖 report.md 中的最近一次检测结果：
-    - 先运行 python check.py 生成报告，再运行本脚本，healthy 才是最新的
-    - 若 report.md 不存在（或还没有检测数据），自动跳过 healthy 版本
-
-每次修改 sources.json 后运行本脚本即可同步所有分发版本。
+说明:
+    sources.json 本身即完整订阅配置，可直接作为 JSON 订阅地址使用。
+    healthy 版读取 report.md 最近一次检测结果，只保留检测通过的源。
+    检测失败的源自动从 healthy 订阅中消失，恢复后自动回来。
+    sources.json 始终保留全部源，不因检测失败而删除。
 """
 import json
 import os
@@ -61,10 +54,6 @@ def load_latest_results():
     return {r["api"]: r for r in latest if "api" in r}
 
 
-def build_config(cache_time, api_site):
-    return {CACHE_TIME_KEY: cache_time, SITES_KEY: api_site}
-
-
 def base58_encode(data):
     """Bitcoin 字母表 Base58 编码，输出与 bs58.encode 一致。"""
     n = int.from_bytes(data, "big")
@@ -85,51 +74,31 @@ def write_variant(name, config):
         f.write(base58_encode(raw))
 
 
-def is_publishable(src):
-    return not src.get("disabled") and not src.get("adult")
+def main():
+    cfg = load_sources()
+    cache_time = cfg.get(CACHE_TIME_KEY, 3600)
+    api_site = cfg.get(SITES_KEY, {})
 
+    latest = load_latest_results()
+    if latest is None:
+        print("⚠️ 未找到检测报告，跳过 healthy 生成（请先运行 python check.py）")
+        return
 
-def build_healthy_site(clean_site, latest):
-    """在 clean 基础上，只保留最近一次检测通过的源。"""
     healthy = {}
-    for key, src in clean_site.items():
+    for key, src in api_site.items():
         result = latest.get(src.get("api"))
         if not result or not result.get("success"):
             continue
         if REQUIRE_SEARCH_PASS and result.get("searchStatus") != "✅":
             continue
         healthy[key] = src
-    return healthy
 
-
-def main():
     os.makedirs(DIST_DIR, exist_ok=True)
-    cfg = load_sources()
-    cache_time = cfg.get(CACHE_TIME_KEY, 3600)
-    api_site = cfg.get(SITES_KEY, {})
+    write_variant("healthy", {CACHE_TIME_KEY: cache_time, SITES_KEY: healthy})
 
-    full = build_config(cache_time, api_site)
-    clean_site = {k: v for k, v in api_site.items() if is_publishable(v)}
-    clean = build_config(cache_time, clean_site)
-
-    write_variant("full", full)
-    write_variant("clean", clean)
-
-    adult_count = sum(1 for v in api_site.values() if v.get("adult"))
-    disabled_count = sum(1 for v in api_site.values() if v.get("disabled"))
-    print(f"✅ 主数据源共 {len(api_site)} 个源")
-    print(f"   - dist/full.json / full.txt    全部源（含 adult×{adult_count}、disabled×{disabled_count}）")
-    print(f"   - dist/clean.json / clean.txt  精简版 {len(clean_site)} 个源（已剔除 adult 与 disabled）")
-
-    latest = load_latest_results()
-    if latest is None:
-        print("⚠️ 未找到检测报告，跳过 healthy 版本（先运行 python check.py）")
-        return
-
-    healthy_site = build_healthy_site(clean_site, latest)
-    write_variant("healthy", build_config(cache_time, healthy_site))
-    dropped = len(clean_site) - len(healthy_site)
-    print(f"   - dist/healthy.json / healthy.txt 健康版 {len(healthy_site)} 个源（剔除检测失败 {dropped} 个）")
+    dropped = len(api_site) - len(healthy)
+    print(f"✅ sources.json 共 {len(api_site)} 个源")
+    print(f"   - dist/healthy.json / healthy.txt  健康版 {len(healthy)} 个源（剔除检测失败 {dropped} 个）")
 
 
 if __name__ == "__main__":

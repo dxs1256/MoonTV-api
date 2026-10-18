@@ -1,27 +1,24 @@
 # API 健康检测
 
-视频源（macOS `provide/vod` 接口）可用性检测仓库。定时检测每个源是否正常、搜索是否命中，并自动维护精简版订阅配置。
+视频源（macOS `provide/vod` 接口）可用性检测仓库。定时检测每个源是否正常、搜索是否命中，并自动生成一份只含健康源的订阅配置。
 
 ## 特点
 
-- **单主数据源**：所有源只维护在 `sources.json` 一个文件，`generate.py` 自动生成分发版本，不再多文件同步
-- **准确检测**：健康检测校验返回 JSON 的 `list` 字段（而非只看 HTTP 200），并带浏览器 UA、超时、重试、并发控制
-- **状态细化**：健康通过但搜索异常标记 ⚠️，连续失败 3 天标记 🚨，检测更可信
-- **自动运行**：GitHub Actions 每天定时检测并更新报告
+- **单主数据源**：所有源只维护在 `sources.json`，它本身就是完整配置，可直接作为订阅使用
+- **健康版订阅**：自动剔除检测失败的源，坏源消失、恢复后自动回来，不用手动维护
+- **准确检测**：健康检测校验返回 JSON 的 `list` 字段（而非只看 HTTP 200），带浏览器 UA、超时、重试、并发控制
+- **状态细化**：健康通过但搜索异常标记 ⚠️，连续失败 3 天标记 🚨
+- **自动运行**：GitHub Actions 每天定时检测并更新报告与健康版订阅
 
 ## 目录结构
 
 ```
-├── sources.json              # 唯一主数据源（在此添加/修改源）
-├── generate.py               # 从主数据源生成分发版本
-├── check.py                  # 健康+搜索检测脚本，生成 report.md
+├── sources.json              # 唯一主数据源，也是完整订阅配置
+├── check.py                  # 健康+搜索检测，生成 report.md
+├── generate.py               # 从检测结果生成健康版订阅
 ├── report.md                 # 检测报告（含30天历史）
 ├── dist/
-│   ├── full.json             # 全部源
-│   ├── full.txt              # full.json 的 Base58 订阅编码
-│   ├── clean.json           # 精简版（剔除 adult / disabled）
-│   ├── clean.txt             # clean.json 的 Base58 订阅编码
-│   ├── healthy.json          # 健康版（clean 中最近一次检测通过的源）
+│   ├── healthy.json          # 健康版（只含检测通过的源）
 │   └── healthy.txt           # healthy.json 的 Base58 订阅编码
 └── .github/workflows/
     └── check.yml             # 定时检测工作流
@@ -29,70 +26,59 @@
 
 ## 添加新源
 
-1. 编辑 `sources.json` 的 `api_site`，按下面格式添加一项：
+编辑 `sources.json` 的 `api_site`，按下面格式添加一项：
 
 ```json
 "新源key": {
   "name": "源名称",
   "api": "https://example.com/api.php/provide/vod",
-  "detail": "https://example.com",
-  "adult": false,
-  "disabled": false
+  "detail": "https://example.com"
 }
 ```
-
-字段说明：
 
 | 字段 | 必填 | 说明 |
 |------|------|------|
 | `name` | 是 | 显示名称 |
 | `api` | 是 | `provide/vod` 接口地址 |
 | `detail` | 否 | 站点主页，用于报告中生成链接 |
-| `adult` | 否 | `true` 时不会进入 clean 精简版 |
-| `disabled` | 否 | `true` 时跳过检测并标记 🚫 |
 
-2. 运行 `python generate.py` 同步分发版本
-3. 运行 `python check.py "关键词"` 本地检测
-4. 推送代码，GitHub Actions 会自动完成后续每日检测
+添加后提交，GitHub Actions 会在下次定时运行时检测并更新健康版；也可先本地运行 `python check.py && python generate.py` 立即验证。
 
 ## 本地用法
 
 ```bash
-# 默认关键词检测
+# 检测（默认关键词）
 python check.py
 
-# 指定关键词
+# 检测（指定关键词）
 python check.py "斗罗大陆"
 
-# 重新生成分发版本（JSON + Base58 订阅）
+# 根据检测结果生成健康版订阅
 python generate.py
 ```
 
+执行顺序：先 `check.py` 生成报告，再 `generate.py` 生成健康版。
+
 ## 订阅使用
 
-`generate.py` 会同时生成 JSON 和 Base58 订阅文件，播放器订阅时使用 `.txt`：
+- 完整订阅（全部源）：直接使用 `sources.json`
+- 健康订阅（只含检测通过的源）：使用 `dist/healthy.txt`（Base58）或 `dist/healthy.json`
 
 ```
-https://raw.githubusercontent.com/<user>/<repo>/main/dist/full.txt
-https://raw.githubusercontent.com/<user>/<repo>/main/dist/clean.txt
+https://raw.githubusercontent.com/<user>/<repo>/main/sources.json
 https://raw.githubusercontent.com/<user>/<repo>/main/dist/healthy.txt
 ```
 
-- `full.txt`：全部源
-- `clean.txt`：剔除 adult 与 disabled 源后的精简版
-- `healthy.txt`：在 clean 基础上，再剔除最近一次检测失败的源
+Base58 编码与 `bs58` 完全一致。
 
-需要 JSON 原始配置时用对应的 `.json` 文件。Base58 编码与 `bs58` 完全一致。
-
-## 健康版订阅
+## 健康版说明
 
 `healthy` 版本读取 `report.md` 中最近一次检测结果，只保留健康检测通过的源：
 
 - 坏源自动从 `healthy.txt` 消失，恢复后下次检测通过会自动回来
 - `sources.json` 始终保留全部源，不因检测失败被删除
-- 依赖执行顺序：先 `python check.py` 生成报告，再 `python generate.py` 生成健康版
-- `report.md` 不存在时自动跳过 healthy 版本
-- 新加入、尚未检测过的源不会进入 healthy，直到下一次检测
+- `report.md` 不存在时跳过健康版生成
+- 新加入、尚未检测过的源不会进入健康版，直到下一次检测
 - 默认只要健康检测通过即算通过；如需搜索也命中，把 `generate.py` 里 `REQUIRE_SEARCH_PASS` 改为 `True`
 
 ## 状态说明
