@@ -61,6 +61,11 @@
       "api": "https://api.wujinapi.me/api.php/provide/vod",
       "detail": "https://wujinzy.com"
     },
+    "wangwangzy": {
+      "name": "旺旺资源",
+      "api": "https://tyyszy.com/api.php/provide/vod",
+      "detail": "https://api.wwzy.tv"
+    },
     "subozy": {
       "name": "速播资源",
       "api": "https://subocaiji.com/api.php/provide/vod",
@@ -70,6 +75,16 @@
       "name": "U酷影视",
       "api": "https://api.ukuapi88.com/api.php/provide/vod",
       "detail": "https://www.ukuzy.com"
+    },
+    "ruyizy": {
+      "name": "如意资源",
+      "api": "https://cj.rycjapi.com/api.php/provide/vod",
+      "detail": "https://www.ryzyw.com"
+    },
+    "haohuazy": {
+      "name": "豪华资源",
+      "api": "https://hhzyapi.com/api.php/provide/vod",
+      "detail": "https://www.haohuazy.com"
     }
   }
 }
