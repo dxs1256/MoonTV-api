@@ -19,14 +19,29 @@
 ├── generate.py               # 从检测结果生成健康版订阅
 ├── dedupe.py                 # 检测并清理重复 api
 ├── report.md                 # 检测报告（含30天历史）
+├── web/
+│   └── index.html            # 网页版源管理器
 ├── dist/
 │   ├── healthy.json          # 健康版（只含检测通过的源）
 │   └── healthy.txt           # healthy.json 的 Base58 订阅编码
 └── .github/workflows/
-    └── check.yml             # 定时检测工作流
+    ├── check.yml             # 定时检测工作流
+    └── pages.yml             # 部署网页版管理器
 ```
 
 ## 添加新源
+
+### 网页版（最省事）
+
+打开 <https://dxs1256.github.io/api-health-check/>：
+
+1. 填 Owner / 仓库 / 分支（默认已填好本仓库），点「加载 sources.json」
+2. 在「添加新源」填名称、API 地址、站点主页，点「添加到列表」
+3. 需要直接提交时，在「GitHub Token」填入有 repo 权限的 Token，点「保存到 GitHub」
+
+页面会校验 URL、拦截重复 API、自动生成 key；不需要提交可点「下载 sources.json」手动上传。Token 只存在本机浏览器 localStorage，不写入仓库。
+
+### 命令行
 
 推荐用 `add.py`，不用手写 JSON，自动校验格式、生成唯一 key、拦截重复：
 
