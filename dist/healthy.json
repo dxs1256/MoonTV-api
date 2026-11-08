@@ -11,11 +11,6 @@
       "api": "https://tyyszy.com/api.php/provide/vod",
       "detail": "https://tyyszy.com"
     },
-    "mtzyme": {
-      "name": "茅台资源",
-      "api": "https://caiji.maotaizy.cc/api.php/provide/vod",
-      "detail": "https://mtzy.me"
-    },
     "ikunzy": {
       "name": "iKun资源",
       "api": "https://ikunzyapi.com/api.php/provide/vod",
