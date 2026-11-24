@@ -51,6 +51,11 @@
       "api": "https://api.zuidapi.com/api.php/provide/vod",
       "detail": "https://zuida.xyz"
     },
+    "wujinzy": {
+      "name": "无尽资源",
+      "api": "https://api.wujinapi.me/api.php/provide/vod",
+      "detail": "https://wujinzy.com"
+    },
     "subozy": {
       "name": "速播资源",
       "api": "https://subocaiji.com/api.php/provide/vod",
