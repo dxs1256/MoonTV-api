@@ -1,12 +1,12 @@
 # 源接口健康检测报告
 
-最近更新时间：2026-11-25 10:54 CST
+最近更新时间：2026-11-26 10:30 CST
 
 **总源数:** 27 | **检测关键词:** 独自等待
 
 | 状态 | 资源名称 | 地址 | API | 搜索功能 | 成功次数 | 失败次数 | 成功率 | 最近7天趋势 |
 |------|---------|-----|-----|---------|---------:|--------:|-------:|--------------|
-| 🚨 | 豆瓣资源 | [Link](https://dbzy.tv) | [Link](https://caiji.dbzy5.com/api.php/provide/vod) | ❌ | 3 | 27 | 10.0% | ❌❌❌❌❌❌❌ |
+| 🚨 | 豆瓣资源 | [Link](https://dbzy.tv) | [Link](https://caiji.dbzy5.com/api.php/provide/vod) | ❌ | 2 | 28 | 6.7% | ❌❌❌❌❌❌❌ |
 | 🚨 | 飘零资源 | [Link](https://p2100.net) | [Link](https://p2100.net/api.php/provide/vod) | ❌ | 0 | 30 | 0.0% | ❌❌❌❌❌❌❌ |
 | ⚠️ | 爱奇艺资源 | [Link](https://iqiyizyapi.com) | [Link](https://iqiyizyapi.com/api.php/provide/vod) | 无结果 | 30 | 0 | 100.0% | ✅✅✅✅✅✅✅ |
 | ⚠️ | 天涯影视 | [Link](https://tyyszy.com) | [Link](https://tyyszy.com/api.php/provide/vod) | ❌ | 30 | 0 | 100.0% | ✅✅✅✅✅✅✅ |
@@ -19,7 +19,7 @@
 | ✅ | 极速资源 | [Link](https://jszyapi.com) | [Link](https://jszyapi.com/api.php/provide/vod) | ✅ | 30 | 0 | 100.0% | ✅✅✅✅✅✅✅ |
 | ✅ | 非凡资源 | [Link](https://cj.ffzyapi.com) | [Link](https://api.ffzyapi.com/api.php/provide/vod) | ✅ | 30 | 0 | 100.0% | ✅✅✅✅✅✅✅ |
 | ✅ | 风暴资源 | [Link](https://bfzy.tv) | [Link](https://bfzyapi.com/api.php/provide/vod) | ✅ | 30 | 0 | 100.0% | ✅✅✅✅✅✅✅ |
-| ✅ | 无尽资源 | [Link](https://wujinzy.com) | [Link](https://api.wujinapi.me/api.php/provide/vod) | ✅ | 29 | 1 | 96.7% | ✅✅✅✅❌✅✅ |
+| ✅ | 无尽资源 | [Link](https://wujinzy.com) | [Link](https://api.wujinapi.me/api.php/provide/vod) | ✅ | 29 | 1 | 96.7% | ✅✅✅❌✅✅✅ |
 | ✅ | 速播资源 | [Link](https://www.subozy.com) | [Link](https://subocaiji.com/api.php/provide/vod) | ✅ | 30 | 0 | 100.0% | ✅✅✅✅✅✅✅ |
 | ✅ | U酷影视 | [Link](https://www.ukuzy.com) | [Link](https://api.ukuapi88.com/api.php/provide/vod) | ✅ | 30 | 0 | 100.0% | ✅✅✅✅✅✅✅ |
 | ✅ | 如意资源 | [Link](https://www.ryzyw.com) | [Link](https://cj.rycjapi.com/api.php/provide/vod) | ✅ | 30 | 0 | 100.0% | ✅✅✅✅✅✅✅ |
@@ -39,201 +39,6 @@
 
 ```json
 [
-  {
-    "date": "2026-10-27",
-    "keyword": "独自等待",
-    "results": [
-      {
-        "key": "jisuzy",
-        "api": "https://jszyapi.com/api.php/provide/vod",
-        "name": "极速资源",
-        "success": true,
-        "searchStatus": "✅"
-      },
-      {
-        "key": "moduzy",
-        "api": "https://www.mdzyapi.com/api.php/provide/vod",
-        "name": "魔都资源",
-        "success": true,
-        "searchStatus": "无结果"
-      },
-      {
-        "key": "fengyunzy",
-        "api": "https://bfzyapi.com/api.php/provide/vod",
-        "name": "风暴资源",
-        "success": true,
-        "searchStatus": "✅"
-      },
-      {
-        "key": "ikunzy",
-        "api": "https://ikunzyapi.com/api.php/provide/vod",
-        "name": "iKun资源",
-        "success": true,
-        "searchStatus": "✅"
-      },
-      {
-        "key": "subozy",
-        "api": "https://subocaiji.com/api.php/provide/vod",
-        "name": "速播资源",
-        "success": true,
-        "searchStatus": "✅"
-      },
-      {
-        "key": "tyyszy",
-        "api": "https://tyyszy.com/api.php/provide/vod",
-        "name": "天涯影视",
-        "success": true,
-        "searchStatus": "❌"
-      },
-      {
-        "key": "zuidazy",
-        "api": "https://api.zuidapi.com/api.php/provide/vod",
-        "name": "最大资源",
-        "success": true,
-        "searchStatus": "✅"
-      },
-      {
-        "key": "wujinzy",
-        "api": "https://api.wujinapi.me/api.php/provide/vod",
-        "name": "无尽资源",
-        "success": true,
-        "searchStatus": "✅"
-      },
-      {
-        "key": "feifanzy",
-        "api": "https://api.ffzyapi.com/api.php/provide/vod",
-        "name": "非凡资源",
-        "success": true,
-        "searchStatus": "✅"
-      },
-      {
-        "key": "haohuazy",
-        "api": "https://hhzyapi.com/api.php/provide/vod",
-        "name": "豪华资源",
-        "success": true,
-        "searchStatus": "✅"
-      },
-      {
-        "key": "dbzy",
-        "api": "https://caiji.dbzy5.com/api.php/provide/vod",
-        "name": "豆瓣资源",
-        "success": true,
-        "searchStatus": "❌"
-      },
-      {
-        "key": "maoyanzy",
-        "api": "https://api.maoyanapi.top/api.php/provide/vod",
-        "name": "猫眼资源",
-        "success": true,
-        "searchStatus": "✅"
-      },
-      {
-        "key": "xinlangapi",
-        "api": "https://api.xinlangapi.com/xinlangapi.php/provide/vod",
-        "name": "新浪资源",
-        "success": true,
-        "searchStatus": "❌"
-      },
-      {
-        "key": "ukuzy",
-        "api": "https://api.ukuapi88.com/api.php/provide/vod",
-        "name": "U酷影视",
-        "success": true,
-        "searchStatus": "✅"
-      },
-      {
-        "key": "dyttzy",
-        "api": "http://caiji.dyttzyapi.com/api.php/provide/vod",
-        "name": "电影天堂",
-        "success": true,
-        "searchStatus": "✅"
-      },
-      {
-        "key": "360zyzz",
-        "api": "https://360zyzz.com/api.php/provide/vod",
-        "name": "360 资源",
-        "success": true,
-        "searchStatus": "✅"
-      },
-      {
-        "key": "jinyingzy",
-        "api": "https://jyzyapi.com/provide/vod/from/jinyingyun/at/json",
-        "name": "金鹰点播",
-        "success": true,
-        "searchStatus": "✅"
-      },
-      {
-        "key": "moduapi",
-        "api": "https://caiji.moduapi.cc/api.php/provide/vod",
-        "name": "魔都动漫",
-        "success": true,
-        "searchStatus": "无结果"
-      },
-      {
-        "key": "hongniuzy",
-        "api": "https://www.hongniuzy2.com/api.php/provide/vod",
-        "name": "红牛资源",
-        "success": true,
-        "searchStatus": "✅"
-      },
-      {
-        "key": "guangsuapi",
-        "api": "https://api.guangsuapi.com/api.php/provide/vod",
-        "name": "光速资源",
-        "success": true,
-        "searchStatus": "✅"
-      },
-      {
-        "key": "lzcaiji",
-        "api": "https://cj.lzcaiji.com/api.php/provide/vod",
-        "name": "量子资源",
-        "success": true,
-        "searchStatus": "✅"
-      },
-      {
-        "key": "iqiyizy",
-        "api": "https://iqiyizyapi.com/api.php/provide/vod",
-        "name": "爱奇艺资源",
-        "success": true,
-        "searchStatus": "无结果"
-      },
-      {
-        "key": "bdzy1",
-        "api": "https://api.apibdzy.com/api.php/provide/vod",
-        "name": "百度云zy",
-        "success": true,
-        "searchStatus": "✅"
-      },
-      {
-        "key": "ruyizy",
-        "api": "https://cj.rycjapi.com/api.php/provide/vod",
-        "name": "如意资源",
-        "success": true,
-        "searchStatus": "✅"
-      },
-      {
-        "key": "p2100",
-        "api": "https://p2100.net/api.php/provide/vod",
-        "name": "飘零资源",
-        "success": false,
-        "searchStatus": "❌"
-      },
-      {
-        "key": "mtzyme",
-        "api": "https://caiji.maotaizy.cc/api.php/provide/vod",
-        "name": "茅台资源",
-        "success": true,
-        "searchStatus": "❌"
-      },
-      {
-        "key": "lovedan",
-        "api": "https://pz.v88.qzz.io/?url=https://lovedan.net/api.php/provide/vod",
-        "name": "艾旦影视",
-        "success": true,
-        "searchStatus": "✅"
-      }
-    ]
-  },
   {
     "date": "2026-10-28",
     "keyword": "独自等待",
@@ -5879,6 +5684,201 @@
         "name": "无尽资源",
         "success": true,
         "searchStatus": "✅"
+      },
+      {
+        "key": "lovedan",
+        "api": "https://pz.v88.qzz.io/?url=https://lovedan.net/api.php/provide/vod",
+        "name": "艾旦影视",
+        "success": true,
+        "searchStatus": "✅"
+      }
+    ]
+  },
+  {
+    "date": "2026-11-26",
+    "keyword": "独自等待",
+    "results": [
+      {
+        "key": "jisuzy",
+        "api": "https://jszyapi.com/api.php/provide/vod",
+        "name": "极速资源",
+        "success": true,
+        "searchStatus": "✅"
+      },
+      {
+        "key": "moduzy",
+        "api": "https://www.mdzyapi.com/api.php/provide/vod",
+        "name": "魔都资源",
+        "success": true,
+        "searchStatus": "无结果"
+      },
+      {
+        "key": "ikunzy",
+        "api": "https://ikunzyapi.com/api.php/provide/vod",
+        "name": "iKun资源",
+        "success": true,
+        "searchStatus": "✅"
+      },
+      {
+        "key": "zuidazy",
+        "api": "https://api.zuidapi.com/api.php/provide/vod",
+        "name": "最大资源",
+        "success": true,
+        "searchStatus": "不匹配"
+      },
+      {
+        "key": "fengyunzy",
+        "api": "https://bfzyapi.com/api.php/provide/vod",
+        "name": "风暴资源",
+        "success": true,
+        "searchStatus": "✅"
+      },
+      {
+        "key": "ukuzy",
+        "api": "https://api.ukuapi88.com/api.php/provide/vod",
+        "name": "U酷影视",
+        "success": true,
+        "searchStatus": "✅"
+      },
+      {
+        "key": "tyyszy",
+        "api": "https://tyyszy.com/api.php/provide/vod",
+        "name": "天涯影视",
+        "success": true,
+        "searchStatus": "❌"
+      },
+      {
+        "key": "maoyanzy",
+        "api": "https://api.maoyanapi.top/api.php/provide/vod",
+        "name": "猫眼资源",
+        "success": true,
+        "searchStatus": "✅"
+      },
+      {
+        "key": "dbzy",
+        "api": "https://caiji.dbzy5.com/api.php/provide/vod",
+        "name": "豆瓣资源",
+        "success": false,
+        "searchStatus": "❌"
+      },
+      {
+        "key": "haohuazy",
+        "api": "https://hhzyapi.com/api.php/provide/vod",
+        "name": "豪华资源",
+        "success": true,
+        "searchStatus": "✅"
+      },
+      {
+        "key": "subozy",
+        "api": "https://subocaiji.com/api.php/provide/vod",
+        "name": "速播资源",
+        "success": true,
+        "searchStatus": "✅"
+      },
+      {
+        "key": "mtzyme",
+        "api": "https://caiji.maotaizy.cc/api.php/provide/vod",
+        "name": "茅台资源",
+        "success": true,
+        "searchStatus": "❌"
+      },
+      {
+        "key": "dyttzy",
+        "api": "http://caiji.dyttzyapi.com/api.php/provide/vod",
+        "name": "电影天堂",
+        "success": true,
+        "searchStatus": "✅"
+      },
+      {
+        "key": "jinyingzy",
+        "api": "https://jyzyapi.com/provide/vod/from/jinyingyun/at/json",
+        "name": "金鹰点播",
+        "success": true,
+        "searchStatus": "✅"
+      },
+      {
+        "key": "xinlangapi",
+        "api": "https://api.xinlangapi.com/xinlangapi.php/provide/vod",
+        "name": "新浪资源",
+        "success": true,
+        "searchStatus": "✅"
+      },
+      {
+        "key": "360zyzz",
+        "api": "https://360zyzz.com/api.php/provide/vod",
+        "name": "360 资源",
+        "success": true,
+        "searchStatus": "✅"
+      },
+      {
+        "key": "guangsuapi",
+        "api": "https://api.guangsuapi.com/api.php/provide/vod",
+        "name": "光速资源",
+        "success": true,
+        "searchStatus": "✅"
+      },
+      {
+        "key": "hongniuzy",
+        "api": "https://www.hongniuzy2.com/api.php/provide/vod",
+        "name": "红牛资源",
+        "success": true,
+        "searchStatus": "✅"
+      },
+      {
+        "key": "feifanzy",
+        "api": "https://api.ffzyapi.com/api.php/provide/vod",
+        "name": "非凡资源",
+        "success": true,
+        "searchStatus": "✅"
+      },
+      {
+        "key": "moduapi",
+        "api": "https://caiji.moduapi.cc/api.php/provide/vod",
+        "name": "魔都动漫",
+        "success": true,
+        "searchStatus": "无结果"
+      },
+      {
+        "key": "bdzy1",
+        "api": "https://api.apibdzy.com/api.php/provide/vod",
+        "name": "百度云zy",
+        "success": true,
+        "searchStatus": "✅"
+      },
+      {
+        "key": "ruyizy",
+        "api": "https://cj.rycjapi.com/api.php/provide/vod",
+        "name": "如意资源",
+        "success": true,
+        "searchStatus": "✅"
+      },
+      {
+        "key": "p2100",
+        "api": "https://p2100.net/api.php/provide/vod",
+        "name": "飘零资源",
+        "success": false,
+        "searchStatus": "❌"
+      },
+      {
+        "key": "lzcaiji",
+        "api": "https://cj.lzcaiji.com/api.php/provide/vod",
+        "name": "量子资源",
+        "success": true,
+        "searchStatus": "✅"
+      },
+      {
+        "key": "wujinzy",
+        "api": "https://api.wujinapi.me/api.php/provide/vod",
+        "name": "无尽资源",
+        "success": true,
+        "searchStatus": "✅"
+      },
+      {
+        "key": "iqiyizy",
+        "api": "https://iqiyizyapi.com/api.php/provide/vod",
+        "name": "爱奇艺资源",
+        "success": true,
+        "searchStatus": "无结果"
       },
       {
         "key": "lovedan",
